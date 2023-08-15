@@ -42,7 +42,7 @@ def remove_subtitles(caps, nombre):
             input_subtitle = f"{nombre}{i}.srt"
             output_filename = f"{nombre}{i}m.mkv"
         
-        # Merge without subtitles
+        # Elimina los subtítulos
         merge_command = f"mkvmerge -o \"{output_filename}\" -S \"{input_movie}\""
         
         if os.system(merge_command) == 0:
@@ -61,7 +61,7 @@ def add_subtitle(caps, nombre):
             input_subtitle = f"{nombre}{i}.srt"
             output_filename = f"{nombre}{i}.mkv"
         
-        # Merge with subtitles
+        # Agrega el subtítulo
         merge_command = f"mkvmerge -o \"{output_filename}\" --default-track 3 --sub-charset 0:ISO-8859-15 --language 3:spa \"{input_subtitle}\" \"{input_movie}\""
         
         process = subprocess.Popen(merge_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -70,13 +70,10 @@ def add_subtitle(caps, nombre):
         if process.returncode == 1:
             print(f"Subtitulo agregado a {input_movie} con {input_subtitle} a {output_filename}")
         else:
-
-            print(process.returncode)
             print(f"Fallo al agregar a {input_movie} el subtitulo {input_subtitle}")
-            # print("Salida estándar:", stdout)
             print("Error estándar:", stderr)
         
-        # Remove input files
+        # Elimina los achivos usados como entrada
         os.remove(input_movie)
         os.remove(input_subtitle)
 
